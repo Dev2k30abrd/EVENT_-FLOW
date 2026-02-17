@@ -19,8 +19,9 @@ EventFlow automates the registration workflow:
 - Gmail Automation
 
 ## Live Demo
-(Will be added after deployment)
+https://dev2k30abrd.github.io/EventFlow-App/
 
 ## Note
 Backend is deployed using Google Apps Script and is kept private for security.
+
 
