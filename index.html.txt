@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EventFlow – Smart Event Registration</title>
+
+<style>
+body{
+  margin:0;
+  font-family: "Segoe UI", sans-serif;
+  background:#f5f7fb;
+}
+
+/* HERO */
+.hero{
+  background: linear-gradient(120deg,#4285F4,#34A853);
+  color:white;
+  padding:60px 20px;
+  text-align:center;
+}
+
+.hero h1{margin:0;font-size:40px;}
+.hero p{margin-top:10px;font-size:18px;opacity:.9}
+
+/* FEATURES */
+.features{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  padding:40px;
+  flex-wrap:wrap;
+}
+
+.card{
+  background:white;
+  width:220px;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  text-align:center;
+}
+
+.card h3{margin:10px 0 5px}
+.card p{font-size:14px;color:#555}
+
+/* FORM SECTION */
+.form-section{
+  display:flex;
+  justify-content:center;
+  padding:40px;
+}
+
+.form-box{
+  background:white;
+  width:360px;
+  padding:30px;
+  border-radius:14px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.1);
+}
+
+.form-box h2{text-align:center;margin-top:0}
+
+input{
+  width:100%;
+  padding:11px;
+  margin-top:12px;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:18px;
+  background:#1a73e8;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.status{text-align:center;margin-top:12px}
+
+.footer{
+  text-align:center;
+  padding:20px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>EventFlow</h1>
+  <p>Event registration without spreadsheet chaos</p>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+
+  <div class="card">
+    <h3>📄 Google Sheets</h3>
+    <p>Live attendee database</p>
+  </div>
+
+  <div class="card">
+    <h3>⚙️ Apps Script</h3>
+    <p>Automated backend logic</p>
+  </div>
+
+  <div class="card">
+    <h3>✉️ Gmail</h3>
+    <p>Instant confirmation emails</p>
+  </div>
+
+  <div class="card">
+    <h3>🔒 No Duplicates</h3>
+    <p>Clean & reliable data</p>
+  </div>
+
+</div>
+
+<!-- FORM -->
+<div class="form-section">
+  <div class="form-box">
+    <h2>IIT Bhilai Hackathon</h2>
+
+    <input id="name" placeholder="Full Name">
+    <input id="email" placeholder="Email">
+    <input id="phone" placeholder="Phone">
+
+    <button onclick="register()">Register Now</button>
+    <div id="msg" class="status"></div>
+  </div>
+</div>
+
+<div class="footer">
+Built using Google Apps Script & Google Workspace
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzciALxLayDkWnP6oji2ApvLrHu-PWERCHGjDhgR1UCeZD2vpiLuImtE-7BoViWAeIHPw/exec";
+
+function register() {
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const msg = document.getElementById("msg");
+
+  msg.innerHTML = "Submitting...";
+
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("email", email);
+  formData.append("phone", phone);
+
+  fetch(API_URL, {
+    method: "POST",
+    body: formData
+  })
+  .then(res => res.text())
+  .then(result => {
+
+    if (result === "success") {
+      msg.innerHTML = "✅ Registration successful!";
+    }
+    else if (result === "duplicate") {
+      msg.innerHTML = "⚠️ Duplicate registration detected!";
+    }
+    else {
+      msg.innerHTML = "❌ Server error.";
+    }
+
+  })
+  .catch(() => {
+    msg.innerHTML = "❌ Cannot connect to server.";
+  });
+}
+</script>
+
