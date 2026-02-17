@@ -23,3 +23,4 @@ EventFlow automates the registration workflow:
 
 ## Note
 Backend is deployed using Google Apps Script and is kept private for security.
+
